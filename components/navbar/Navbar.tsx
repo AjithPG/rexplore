@@ -3,6 +3,7 @@ import LinksDropdwon from "./LinksDropdown"
 import NavSearch from "./NavSearch"
 import DarkMode from "./DarkMode"
 import Logo from "./Logo"
+import Notifications from "./Notifications"
 
 
 const NavBar = () => {
@@ -12,6 +13,7 @@ const NavBar = () => {
         <Logo/>
         <NavSearch/>
         <div className="flex gap-4 items-center">
+          <Notifications/>
           <DarkMode/>
           <LinksDropdwon/>
         </div>
