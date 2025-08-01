@@ -1,8 +1,8 @@
-
+import { Input } from "../ui/input"
 
 const NavSearch = () => {
   return (
-    <div>NavSearch</div>
+    <Input type="search" placeholder="Search Resources" className="max-w-xs dark:bg-muted"/>
   )
 }
 
