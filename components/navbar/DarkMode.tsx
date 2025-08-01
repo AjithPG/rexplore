@@ -1,9 +1,9 @@
 
 
-const Darkmode = () => {
+const DarkMode = () => {
   return (
     <div>Darkmode</div>
   )
 }
 
-export default Darkmode
+export default DarkMode
