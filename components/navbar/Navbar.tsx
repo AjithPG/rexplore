@@ -1,5 +1,5 @@
 import Container from "../global/Container"
-import LinksDropdwon from "./LinksDropdwon"
+import LinksDropdwon from "./LinksDropdown"
 import NavSearch from "./NavSearch"
 import DarkMode from "./DarkMode"
 import Logo from "./Logo"
