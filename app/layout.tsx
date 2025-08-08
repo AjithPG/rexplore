@@ -5,12 +5,9 @@ import NavBar from "@/components/navbar/NavBar";
 import Container from "@/components/global/Container";
 import Providers from "./providers";
 
-
 const inter = Inter({
   subsets: ["latin"],
 });
-
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,9 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={inter.className}
-      >
+      <body className={inter.className}>
         <Providers>
           <NavBar />
           <Container className="">{children}</Container>

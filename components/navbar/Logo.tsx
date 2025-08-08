@@ -5,7 +5,7 @@ import {RiCompass3Line} from "@remixicon/react"
 
 const Logo = () => {
   return (
-    <Button asChild>
+    <Button asChild className="max-w-30">
        <Link href={"/"}>
        <RiCompass3Line/>
          Rexplore
