@@ -1,0 +1,29 @@
+[
+  {
+    
+    "name": "Folioblox",
+    "description": "Folioblox, a Framer template for creative portfolios, is ideal for personal portfolios, designers, freelancers, agencies, and photographers.",
+    "url":"https://folioblox.framer.website/",
+    "category": "Development",
+    "featured": "Free",
+    "type":"Website",
+    "tags":"front-end,software",
+    "image": "https://images.pexels.com/photos/943150/pexels-photo-943150.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "clerkId": "clerkId"
+    
+  },
+   {
+    
+    "name": "ai-essentials",
+    "description": "Feeling swamped at work? Like there’s not enough time in the day to focus on the stuff that matters? We get it. With Google AI Essentials, you’ll learn how to use generative AI tools to help speed up daily tasks, make more informed decisions, and develop new ideas and content.",
+    "url":"https://grow.google/intl/en_in/ai-essentials/",
+    "category": "Learning",
+    "featured": "Free",
+    "type":"Course",
+    "tags":"AI",
+    "image": "https://images.pexels.com/photos/1571459/pexels-photo-1571459.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "clerkId": "clerkId"
+    
+  }
+ 
+]

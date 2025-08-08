@@ -1,0 +1,29 @@
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model TestProfile {
+id  String @id @default(uuid())
+name String
+}
+
+model Product {
+  id           String     @id @default(uuid())
+  name        String
+  description String
+  url         String
+  category    String
+  featured   String
+  type       String
+  tags       String
+  image       String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  clerkId  String
+}
