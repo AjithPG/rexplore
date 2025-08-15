@@ -1,6 +1,6 @@
+import { Product } from "@prisma/client";
 
-
-const ResourcesList = () => {
+const ResourcesList = ({ resources }: { resources: Product[] }) => {
   return (
     <div>ResourcesList</div>
   )
