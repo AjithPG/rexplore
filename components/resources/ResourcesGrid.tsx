@@ -4,9 +4,9 @@ import Image from "next/image";
 import { Card, CardContent } from "../ui/card";
 import FavoriteToggleButton from "./FavoriteToggleButton";
 
-const ResourcesList = ({ resources }: { resources: Product[] }) => {
+const ResourcesGrid = ({ resources }: { resources: Product[] }) => {
   return (
-    <div className="mt-12 grid  gap-y-4 gap-x-4">
+    <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {resources.map((resource) => {
         const { name, image } = resource;
         const resourceId = resource.id;
@@ -14,8 +14,8 @@ const ResourcesList = ({ resources }: { resources: Product[] }) => {
           <article key={resourceId} className="group relative">
             <Link href={`/resources/${resourceId}`}>
               <Card className="transform group-hover:shadow-xl transition-shadow duration-500 py-0">
-                <CardContent className="p-4 grid  md:grid-cols-[192px_1fr] gap-y-8 gap-x-8">
-                  <div className="relative h-64 md:h-48 md:w-48 w-full rounded overflow-hidden">
+                <CardContent className="p-4">
+                  <div className="relative h-64 md:h-48 rounded overflow-hidden">
                     <Image
                       src={image}
                       alt={name}
@@ -25,7 +25,7 @@ const ResourcesList = ({ resources }: { resources: Product[] }) => {
                       className="rounded w-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
-                  <div className="mt-4 text-left">
+                  <div className="mt-4 text-center">
                     <h2 className="text-lg capitalize">{name}</h2>
                   </div>
                 </CardContent>
@@ -38,7 +38,7 @@ const ResourcesList = ({ resources }: { resources: Product[] }) => {
         );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default ResourcesList
+export default ResourcesGrid;
