@@ -19,6 +19,11 @@ const NavSearch = () => {
    }
    replace(`/resources?${params.toString()}`)
   },500)
+    useEffect(() => {
+    if (!searchParams.get('search')) {
+      setSearch('');
+    }
+  }, [searchParams.get('search')]);
   return (
     <Input type="search" placeholder="Search Resources" className="max-w-xs dark:bg-muted" 
     onChange={(e)=>{
