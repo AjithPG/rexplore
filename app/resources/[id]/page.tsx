@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@prisma/client";
 
-const SingleResourcePage = async ({ params }: { params: { id: string } }) => {
+const SingleResourcePage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const paramsID = await params;
   const resource = (await fetchSingleResource(paramsID.id)) as Product;
   const { id, name, description, image, url } = resource;
