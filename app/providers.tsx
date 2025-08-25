@@ -1,15 +1,19 @@
 "use client";
 import { ThemeProvider } from "./theme-provider";
+import { Toaster } from "sonner";
 const providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme=""
-      enableSystem
-      disableTransitionOnChange
-    >
-      {children}
-    </ThemeProvider>
+    <>
+      <Toaster />
+      <ThemeProvider
+        attribute="class"
+        defaultTheme=""
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
+    </>
   );
 };
 
