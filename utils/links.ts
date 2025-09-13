@@ -9,3 +9,8 @@ export const Links: NavLink[] = [
   { href: "/resources", label: "resources" },
   { href: "/favorites", label: "favorites" },
 ];
+
+export const adminLinks: NavLink[] = [
+  { href: "/admin/resources", label: "my resources" },
+  { href: "/admin/resources/create", label: "create resources" },
+];
