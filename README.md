@@ -1,25 +1,29 @@
 # Project Title - Rexplore
-> Short description — Help people discover free learning and  earning opportunities online
+
+> Short description — Help people discover free learning and earning opportunities online
 
 Live Link - Coming Soon..
 
-## Table of Contents  
-- [Description](#description)  
+## Table of Contents
+
+- [Description](#description)
 - [Features](#features)
 - [TechStack](#techstack)
-- [Getting Started](#getting-started)  
-  - [Prerequisites](#prerequisites)  
-  - [Installation](#installation)  
-- [Project Structure](#project-structure)  
-- [Contributing](#contributing)    
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
 - [License](#license)
 
 ## Description
-- Mission : Help people discover free learning and  earning opportunities online
+
+- Mission : Help people discover free learning and earning opportunities online
 - Target Audience : Students, freelancers, career switchers, job seekers
 - Solving Problem : Scattered resources, Lack of curation, outdated info
-  
+
 ## Features
+
 - Categories: Free courses, free events, earning websites, job portals
 - Search & filter by category, topic, date (events), type (course, job, gig)
 - Submission form (allow users to suggest resources)
@@ -27,10 +31,12 @@ Live Link - Coming Soon..
 - Basic user authentication (optional, but helpful for personalization)
 
 ## TechStack
+
 - Front End - Next Js
 - Backend - Supabase
 
 ## Folder Structure
+
 ```bash
   rexplore/
 ├── README.md
@@ -49,5 +55,31 @@ Live Link - Coming Soon..
 └── utils.test.ts
 ```
 
+## How to run locally
 
+## 1 Clone the Repository
 
+```bash
+   git clone https://github.com/AjithPG/rexplore.git
+   cd rexplore
+```
+
+## 2 Instal Node Modules
+
+```bash
+   npm i
+```
+
+## 3 Run Locally
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

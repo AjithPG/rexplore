@@ -1,0 +1,21 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Markdown files: keep trailing spaces (for line breaks)
+[*.md]
+trim_trailing_whitespace = false
+
+# JSON files should always use 2 spaces
+[*.json]
+indent_size = 2
+
+# YAML files also use 2 spaces
+[*.yml]
+indent_size = 2
