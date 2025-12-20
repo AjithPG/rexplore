@@ -13,12 +13,12 @@ export function Navbar() {
 
                 {/* Right Side */}
                 <div className="flex items-center gap-4">
-                    <Link
+                    {/* <Link
                         href="/submit"
                         className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                     >
                         Submit
-                    </Link>
+                    </Link> */}
 
                     <SignedOut>
                         <SignInButton mode="modal">

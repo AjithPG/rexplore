@@ -1,5 +1,4 @@
 "use client";
-
 import { Navbar } from "@/components/navbar";
 import { ResourceCard } from "@/components/resource-card";
 import { CategoryFilter } from "@/components/category-filter";

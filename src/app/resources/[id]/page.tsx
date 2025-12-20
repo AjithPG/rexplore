@@ -1,5 +1,4 @@
 "use client";
-
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Badge } from "@/components/ui/badge";
@@ -128,25 +127,25 @@ export default function ResourceDetailPage() {
         );
     }
 
-    const handleShare = (platform: string) => {
-        const url = window.location.href;
-        const text = `Check out ${resource?.title} on Rexplore!`;
+    // const handleShare = (platform: string) => {
+    //     const url = window.location.href;
+    //     const text = `Check out ${resource?.title} on Rexplore!`;
 
-        let shareUrl = "";
+    //     let shareUrl = "";
 
-        switch (platform) {
-            case "twitter":
-                shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-                break;
-            case "linkedin":
-                shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
-                break;
-        }
+    //     switch (platform) {
+    //         case "twitter":
+    //             shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
+    //             break;
+    //         case "linkedin":
+    //             shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    //             break;
+    //     }
 
-        if (shareUrl) {
-            window.open(shareUrl, "_blank", "width=600,height=400");
-        }
-    };
+    //     if (shareUrl) {
+    //         window.open(shareUrl, "_blank", "width=600,height=400");
+    //     }
+    // };
 
     const gradient = categoryGradients[resource.category] || "from-gray-500 via-gray-600 to-gray-700";
 
@@ -160,14 +159,14 @@ export default function ResourceDetailPage() {
                     <div className="absolute inset-0 bg-black/20" />
                 </div>
 
-                <div className="container max-w-4xl px-4 md:px-6 -mt-32 relative z-10">
+                <div className="container max-w-4xl w-full p-4 md:p-6 -mt-32 relative z-10 mx-auto">
                     <Button variant="ghost" asChild className="mb-6 text-white hover:text-white/80 hover:bg-white/10">
                         <Link href="/" className="flex items-center gap-2">
                             <ArrowLeft className="h-4 w-4" /> Back to Resources
                         </Link>
                     </Button>
 
-                    <div className="bg-background rounded-lg border shadow-lg p-8 md:p-12">
+                    <div className="bg-background w-full rounded-lg border shadow-lg p-8 md:p-12 mx-auto">
                         <div className="space-y-6">
                             <div className="flex gap-2">
                                 <Badge className="text-sm">{resource.category}</Badge>
@@ -201,12 +200,12 @@ export default function ResourceDetailPage() {
 
                                 <div className="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-end">
                                     <span className="text-sm text-muted-foreground mr-2">Share:</span>
-                                    <Button variant="outline" size="icon" onClick={() => handleShare("twitter")} title="Share on Twitter">
+                                    {/* <Button variant="outline" size="icon" onClick={() => handleShare("twitter")} title="Share on Twitter">
                                         <TwitterIcon className="h-4 w-4" />
                                     </Button>
                                     <Button variant="outline" size="icon" onClick={() => handleShare("linkedin")} title="Share on LinkedIn">
                                         <LinkedinIcon className="h-4 w-4" />
-                                    </Button>
+                                    </Button> */}
                                     <Button variant="outline" size="icon" onClick={handleCopy} title="Copy Link">
                                         {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                                     </Button>

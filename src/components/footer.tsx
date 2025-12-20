@@ -11,21 +11,6 @@ export function Footer() {
                     <p className="text-xs text-muted-foreground">
                         © {new Date().getFullYear()} Rexplore. Discover free learning & earning opportunities.
                     </p>
-                    <div className="flex gap-4">
-                        <Link
-                            href="https://twitter.com/rexplore"
-                            target="_blank"
-                            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                            Twitter
-                        </Link>
-                        <Link
-                            href="/submit"
-                            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                            Submit
-                        </Link>
-                    </div>
                 </div>
             </div>
         </footer>
