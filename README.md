@@ -41,6 +41,7 @@ Rexplore is a platform to help people discover free learning and earning opportu
 - `src/lib`: Utility functions and Supabase client.
 
 ## 📁 Repository Structure
+```bash
 📁 Project Structure
 .
 ├── 📂 app/                 – App router entry
@@ -62,7 +63,7 @@ Rexplore is a platform to help people discover free learning and earning opportu
         ├── 📂 admin/
         ├── 📂 submit/
         └── 📂 resources/
-
+```
 At the root level you will find the following files and configurations:
 
 | File / Config | Purpose / Description |
