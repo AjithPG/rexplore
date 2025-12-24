@@ -19,6 +19,15 @@ export function Navbar() {
                     >
                         Submit
                     </Link> */}
+                    <Button size="sm" asChild className="px-8 text-lg w-full sm:w-auto">
+                        <Link
+                            href="https://forms.gle/z46LQ5DZK9LcDzmc9"
+                            className="text-sm font-medium text-muted-foreground transition-colors"
+                        >
+                            Request Resources
+                        </Link>
+                    </Button>
+
 
                     <SignedOut>
                         <SignInButton mode="modal">
