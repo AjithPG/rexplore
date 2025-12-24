@@ -58,7 +58,7 @@ export async function GET(request: Request) {
         query = query.eq('status', status);
     } else {
         // Default to approved for public listing
-        query = query.eq('status', 'approved');
+        query = query.eq('status', 'Approved');
     }
 
     const { data, error } = await query;

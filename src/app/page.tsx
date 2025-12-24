@@ -7,6 +7,15 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 // Resource Interface
 interface Resource {
@@ -19,13 +28,15 @@ interface Resource {
   type: string;
 }
 
-const CATEGORIES = ["All", "Course", "Earning", "Event", "Job"];
+const CATEGORIES = ["All", "Certification", "Course", "Earning", "Event", "Job"];
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [resources, setResources] = useState<Resource[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     async function fetchResources() {
@@ -33,7 +44,7 @@ export default function Home() {
         const { data, error } = await supabase
           .from('resources')
           .select('*')
-          .eq('status', 'approved');
+          .eq('status', 'Approved');
 
         if (error) {
           console.error('Error fetching resources:', error);
@@ -55,10 +66,23 @@ export default function Home() {
     const matchesSearch = searchQuery === "" ||
       resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       resource.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      resource.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (resource.tags && resource.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())));
 
     return matchesCategory && matchesSearch;
   });
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory, searchQuery]);
+
+  const totalPages = Math.ceil(filteredResources.length / itemsPerPage);
+  const paginatedResources = filteredResources.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="min-h-screen bg-background font-sans flex flex-col">
@@ -101,7 +125,7 @@ export default function Home() {
         />
 
         {/* Resource Grid */}
-        <section className="py-12 container px-4 md:px-6">
+        <section className="py-12  px-4 md:px-6">
           {isLoading ? (
             <div className="text-center py-20">
               <p className="text-muted-foreground">Loading resources...</p>
@@ -114,8 +138,8 @@ export default function Home() {
                 </p>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredResources.map((resource) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {paginatedResources.map((resource) => (
                   <ResourceCard
                     key={resource.id}
                     id={resource.id}
@@ -142,6 +166,42 @@ export default function Home() {
                 </div>
               )}
             </>
+          )}
+
+          {/* Pagination */}
+          {!isLoading && filteredResources.length > itemsPerPage && (
+            <div className="mt-8">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        isActive={currentPage === page}
+                        onClick={() => setCurrentPage(page)}
+                        className="cursor-pointer"
+                        size="icon"
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
           )}
         </section>
       </main>
