@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 export function Navbar() {
     return (
@@ -9,6 +10,7 @@ export function Navbar() {
                 {/* Logo */}
                 <Link href="/" className="flex items-center space-x-2">
                     <span className="text-2xl font-bold tracking-tight">Rexplore</span>
+                    <Badge className="px-1.5 text-[0.6rem] h-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0 shadow-sm">Alpha</Badge>
                 </Link>
 
                 {/* Right Side */}
