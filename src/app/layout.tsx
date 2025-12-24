@@ -16,6 +16,36 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Rexplore",
   description: "Discover free learning and earning opportunities online",
+  keywords: ["Rexplore", "free learning", "free earning", "online resources", "free courses", "free jobs", "free events", "free certification", "free education", "free training", "free learning opportunities", "free earning opportunities", "free online resources", "free online courses", "free online jobs", "free online events", "free online certification", "free online education", "free online training"],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://rexplore-site.vercel.app/",
+    title: "Rexplore",
+    description: "Discover free learning and earning opportunities online",
+    siteName: "Rexplore",
+    images: [
+      {
+        url: "https://rexplore-site.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Rexplore",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rexplore",
+    description: "Discover free learning and earning opportunities online",
+    images: [
+      {
+        url: "https://rexplore-site.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Rexplore",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
