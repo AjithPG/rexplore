@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { Sidebar } from "@/components/sidebar";
 
 export function Navbar() {
     return (
@@ -56,6 +57,8 @@ export function Navbar() {
                         <SheetContent side="right">
                             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                             <div className="flex flex-col gap-4 mt-8">
+                                <Sidebar className="block w-full border-none h-auto pt-0 min-h-0 pb-0" />
+                                <div className="border-t my-2" />
 
 
                                 <SignedOut>
