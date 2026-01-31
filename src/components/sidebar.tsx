@@ -10,6 +10,7 @@ import {
     DollarSign,
     Calendar,
     Briefcase,
+    LibraryBig
 } from "lucide-react";
 
 interface SidebarProps {
@@ -20,6 +21,7 @@ const CATEGORIES = [
     { name: "All", label: "Discover", icon: Compass },
     { name: "Certification", label: "Certification", icon: Award },
     { name: "Course", label: "Course", icon: BookOpen },
+    { name: "Resources", label: "Resources", icon: LibraryBig },
     { name: "Earning", label: "Earning", icon: DollarSign },
     { name: "Event", label: "Event", icon: Calendar },
     { name: "Job", label: "Job", icon: Briefcase },
