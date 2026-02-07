@@ -14,20 +14,28 @@ interface ResourceCardProps {
 }
 
 export function ResourceCard({ id, title, description, category, tags, url, type, image }: ResourceCardProps) {
-    const gradient = "from-gray-500 via-gray-600 to-gray-700";
 
     return (
         <Link href={`/resources/${id}`}>
-            <Card className="group h-full overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02] cursor-pointer">
-                {/* Gradient Preview */}
-                <div className={`relative aspect-video select-none overflow-hidden rounded-md shadow-border-small p-2 bg-gradient-to-br ${gradient}`}>
-                    {image && <img src={image} alt={title} className="w-full h-full object-cover" />}
-                    <div className="absolute top-4 right-4 flex gap-2">
+            <Card className="group h-full overflow-hidden transition-all hover:shadow-sm hover:scale-[1.02] cursor-pointer duration-200 ease-in-out hover:bg-background-100  active:scale-99">
+
+                <div className="relative aspect-video select-none overflow-hidden rounded-md shadow-border-small p-2">
+                    <div className="relative">
+                        {image ? (
+                            <img src={image} alt={title} className="w-full h-full object-cover" />
+                        ) : (
+                            <img src="../no-screenshot.png" alt={title} className="w-full h-full object-cover" />
+                        )}
+                        <div className="absolute inset-0 bg-black/5" />
+                    </div>
+
+                    <div className="absolute top-5 right-6 flex gap-2">
                         <Badge variant="secondary" className="bg-white/90 backdrop-blur">
                             {category}
                         </Badge>
                     </div>
                 </div>
+
 
                 <CardHeader>
                     <h3 className="font-bold text-sm line-clamp-2 group-hover:text-primary transition-colors">
