@@ -32,19 +32,32 @@ export function Sidebar({ className }: SidebarProps) {
     const router = useRouter();
     const pathname = usePathname();
 
-    const currentCategory = searchParams.get("category") || "All";
+    // Determine current category from either search params or pathname
+    const getCategoryFromPath = () => {
+        if (pathname === "/") return "All";
+        if (pathname.startsWith("/category/")) {
+            return decodeURIComponent(pathname.split("/").pop() || "All");
+        }
+        return searchParams.get("category") || "All";
+    };
+
+    const currentCategory = getCategoryFromPath();
 
     const handleCategoryClick = (category: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        if (category === "All") {
-            params.delete("category");
-        } else {
-            params.set("category", category);
-        }
-        // Reset pagination to 1 when changing category
+        // Reset pagination when changing category
         params.delete("page");
+        // We also don't need the category param anymore since it's in the path
+        params.delete("category");
 
-        router.push(`${pathname}?${params.toString()}`);
+        const queryString = params.toString();
+        const suffix = queryString ? `?${queryString}` : "";
+
+        if (category === "All") {
+            router.push(`/${suffix}`);
+        } else {
+            router.push(`/category/${encodeURIComponent(category)}${suffix}`);
+        }
     };
 
     return (

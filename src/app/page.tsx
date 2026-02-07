@@ -119,7 +119,6 @@ function HomeContent() {
 
   return (
     <div className="h-screen overflow-hidden bg-background font-sans flex flex-col">
-      <Navbar />
 
       <div className="flex flex-1 overflow-hidden container max-w-screen-2xl mx-auto">
         <Sidebar className="block w-64 shrink-0 hidden md:block border-r" />
@@ -170,7 +169,7 @@ function HomeContent() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {paginatedResources.map((resource) => (
                     <ResourceCard
                       key={resource.id}
@@ -266,7 +265,6 @@ function HomeContent() {
               </div>
             )}
           </section>
-          <Footer />
         </main>
       </div>
     </div>

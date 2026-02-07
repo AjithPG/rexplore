@@ -27,8 +27,8 @@ export function ResourceCard({ id, title, description, category, tags, url, type
         <Link href={`/resources/${id}`}>
             <Card className="group h-full overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02] cursor-pointer">
                 {/* Gradient Preview */}
-                <div className={`h-48 bg-gradient-to-br ${gradient} relative overflow-hidden`}>
-                    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors" />
+                <div className={`relative aspect-video select-none overflow-hidden rounded-md shadow-border-small`}>
+                    <img src="../python.png" alt={title} className="w-full h-full object-cover" />
                     <div className="absolute top-4 right-4 flex gap-2">
                         <Badge variant="secondary" className="bg-white/90 backdrop-blur">
                             {category}
@@ -36,23 +36,16 @@ export function ResourceCard({ id, title, description, category, tags, url, type
                     </div>
                 </div>
 
-                <CardHeader className="pb-3">
-                    <h3 className="font-bold text-lg line-clamp-2 group-hover:text-primary transition-colors">
+                <CardHeader>
+                    <h3 className="font-bold text-sm line-clamp-2 group-hover:text-primary transition-colors">
                         {title}
                     </h3>
                 </CardHeader>
 
-                <CardContent className="pb-4">
-                    <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                <CardContent>
+                    <p className="text-sm text-muted-foreground line-clamp-2">
                         {description}
                     </p>
-                    <div className="flex flex-wrap gap-1.5">
-                        {tags.slice(0, 3).map((tag) => (
-                            <Badge key={tag} variant="outline" className="text-xs font-normal">
-                                {tag}
-                            </Badge>
-                        ))}
-                    </div>
                 </CardContent>
             </Card>
         </Link>
