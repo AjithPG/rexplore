@@ -18,17 +18,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
-// Resource Interface
-interface Resource {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  tags: string[];
-  url: string;
-  type: string;
-}
+import { Resource } from "@/types/resource";
 
 function HomeContent() {
   const searchParams = useSearchParams();
@@ -116,7 +106,6 @@ function HomeContent() {
     router.push(`${pathname}?${params.toString()}`);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
   return (
     <div className="h-screen overflow-hidden bg-background font-sans flex flex-col">
 
@@ -169,7 +158,7 @@ function HomeContent() {
                   )}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="mt-6 grid w-full gap-x-4 gap-y-6 pb-6 md:grid-cols-2 md:pb-20 lg:grid-cols-3 xl:grid-cols-4">
                   {paginatedResources.map((resource) => (
                     <ResourceCard
                       key={resource.id}
@@ -180,6 +169,7 @@ function HomeContent() {
                       tags={resource.tags || []}
                       url={resource.url}
                       type={resource.type}
+                      image={resource?.image_url}
                     />
                   ))}
                 </div>

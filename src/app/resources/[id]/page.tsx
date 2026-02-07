@@ -8,16 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Sidebar } from "@/components/sidebar";
-
-interface Resource {
-    id: string;
-    title: string;
-    description: string;
-    url: string;
-    category: string;
-    type: string;
-    tags: string[];
-}
+import { Resource } from "@/types/resource";
 
 export default function ResourceDetailPage() {
     const params = useParams();
@@ -102,7 +93,13 @@ export default function ResourceDetailPage() {
                         <div className="flex w-full flex-col items-start gap-6 md:flex-row">
                             <div className="flex flex-1 flex-col gap-6">
                                 <h2 className="text-md font-semibold">Site Screenshot</h2>
-                                <img src="../python.png" alt={resource.title} className="w-full rounded-lg" />
+                                {resource.image_url ? (
+                                    <img src={resource.image_url} alt={resource.title} className="w-full rounded-lg object-cover" />
+                                ) : (
+                                    <div className="w-full aspect-video rounded-lg bg-muted flex items-center justify-center">
+                                        <p className="text-muted-foreground">No screenshot available</p>
+                                    </div>
+                                )}
                             </div>
                             <div className="sticky top-20 border inline-flex h-auto w-full flex-col gap-4 rounded-lg bg-background p-4 shadow-light md:max-w-3xs dark:shadow-dark">
                                 <div className="flex flex-col gap-2">

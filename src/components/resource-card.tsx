@@ -10,25 +10,18 @@ interface ResourceCardProps {
     tags: string[];
     url: string;
     type: string;
+    image?: string;
 }
 
-// Gradient map for different categories
-const categoryGradients: Record<string, string> = {
-    "Course": "from-purple-500 via-blue-500 to-indigo-600",
-    "Earning": "from-green-500 via-teal-500 to-cyan-600",
-    "Event": "from-yellow-500 via-orange-500 to-red-500",
-    "Job": "from-pink-500 via-rose-500 to-red-600",
-};
-
-export function ResourceCard({ id, title, description, category, tags, url, type }: ResourceCardProps) {
-    const gradient = categoryGradients[category] || "from-gray-500 via-gray-600 to-gray-700";
+export function ResourceCard({ id, title, description, category, tags, url, type, image }: ResourceCardProps) {
+    const gradient = "from-gray-500 via-gray-600 to-gray-700";
 
     return (
         <Link href={`/resources/${id}`}>
             <Card className="group h-full overflow-hidden transition-all hover:shadow-lg hover:scale-[1.02] cursor-pointer">
                 {/* Gradient Preview */}
-                <div className={`relative aspect-video select-none overflow-hidden rounded-md shadow-border-small`}>
-                    <img src="../python.png" alt={title} className="w-full h-full object-cover" />
+                <div className={`relative aspect-video select-none overflow-hidden rounded-md shadow-border-small p-2 bg-gradient-to-br ${gradient}`}>
+                    {image && <img src={image} alt={title} className="w-full h-full object-cover" />}
                     <div className="absolute top-4 right-4 flex gap-2">
                         <Badge variant="secondary" className="bg-white/90 backdrop-blur">
                             {category}

@@ -15,14 +15,7 @@ import { Check, X, ExternalLink, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-interface Resource {
-    id: string;
-    title: string;
-    url: string;
-    category: string;
-    status: string;
-    submitted_by: string;
-}
+import { Resource } from "@/types/resource";
 
 export default function AdminPage() {
     const [resources, setResources] = useState<Resource[]>([]);
