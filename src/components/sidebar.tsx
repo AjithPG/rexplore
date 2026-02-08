@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,21 +46,12 @@ export function Sidebar({ className }: SidebarProps) {
 
     const currentCategory = getCategoryFromPath();
 
-    const handleCategoryClick = (category: string) => {
+    const getHref = (category: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        // Reset pagination when changing category
         params.delete("page");
-        // We also don't need the category param anymore since it's in the path
         params.delete("category");
-
-        const queryString = params.toString();
-        const suffix = queryString ? `?${queryString}` : "";
-
-        if (category === "All") {
-            router.push(`/${suffix}`);
-        } else {
-            router.push(`/category/${encodeURIComponent(category)}${suffix}`);
-        }
+        const suffix = params.toString() ? `?${params.toString()}` : "";
+        return category === "All" ? `/${suffix}` : `/category/${encodeURIComponent(category)}${suffix}`;
     };
 
     return (
@@ -78,14 +70,19 @@ export function Sidebar({ className }: SidebarProps) {
                                 <Button
                                     key={category.name}
                                     variant={isActive ? "secondary" : "ghost"}
+                                    asChild
                                     className={cn(
-                                        "w-full justify-start font-normal",
+                                        "w-full justify-start font-normal cursor-pointer",
                                         isActive && "font-medium"
                                     )}
-                                    onClick={() => handleCategoryClick(category.name)}
                                 >
-                                    <Icon className="mr-2 h-4 w-4" />
-                                    {category.label}
+                                    <Link
+                                        href={getHref(category.name)}
+
+                                    >
+                                        <Icon className="mr-2 h-4 w-4" />
+                                        {category.label}
+                                    </Link>
                                 </Button>
                             );
                         })}

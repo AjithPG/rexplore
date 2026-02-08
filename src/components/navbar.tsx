@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
@@ -5,8 +6,17 @@ import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { Sidebar } from "@/components/sidebar";
+import { useState, useEffect, Suspense } from "react";
+import { usePathname } from "next/navigation";
 
 export function Navbar() {
+    const [open, setOpen] = useState(false);
+    const pathname = usePathname();
+
+    // Automatically close mobile drawer when route changes
+    useEffect(() => {
+        setOpen(false);
+    }, [pathname]);
     return (
         <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 items-center justify-between px-4 md:px-6">
@@ -47,7 +57,7 @@ export function Navbar() {
                     <SignedIn>
                         <UserButton />
                     </SignedIn>
-                    <Sheet>
+                    <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild>
                             <Button variant="ghost" size="icon" className="shrink-0">
                                 <Menu className="h-5 w-5" />
@@ -57,7 +67,11 @@ export function Navbar() {
                         <SheetContent side="right">
                             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                             <div className="flex flex-col gap-4 mt-8">
-                                <Sidebar className="block w-full border-none h-auto pt-0 min-h-0 pb-0" />
+                                <Suspense fallback={null}>
+                                    <Sidebar
+                                        className="block w-full border-none h-auto pt-0 min-h-0 pb-0"
+                                    />
+                                </Suspense>
                                 <div className="border-t my-2" />
 
 
