@@ -8,7 +8,6 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
 import { PaginationControls } from "@/components/pagination-controls";
-import { Resource } from "@/types/resource";
 
 
 function HomeContent() {

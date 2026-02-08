@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,6 @@ const CATEGORIES = [
 
 export function Sidebar({ className }: SidebarProps) {
     const searchParams = useSearchParams();
-    const router = useRouter();
     const pathname = usePathname();
 
     // Determine current category from either search params or pathname
