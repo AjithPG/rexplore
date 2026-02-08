@@ -18,7 +18,7 @@ export function Navbar() {
         setOpen(false);
     }, [pathname]);
     return (
-        <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 container max-w-screen-2xl mx-auto">
             <div className="container flex h-16 items-center justify-between px-4 md:px-6">
                 {/* Logo */}
                 <Link href="/" className="flex items-center space-x-2">
