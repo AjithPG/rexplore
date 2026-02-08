@@ -5,7 +5,8 @@ import { Footer } from "@/components/footer";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState, useEffect, Suspense } from "react";
-import { supabase } from "@/lib/supabase";
+import { resourceService } from "@/services/resourceService";
+import { useResources } from "@/hooks/useResources";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { cn } from "@/lib/utils";
@@ -30,8 +31,7 @@ function HomeContent() {
   const searchQuery = searchParams.get("q") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const [resources, setResources] = useState<Resource[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: resources = [], isLoading } = useResources();
   const itemsPerPage = 10;
 
   // Local state for search input to allow typing without constant URL updates
@@ -60,29 +60,6 @@ function HomeContent() {
     return () => clearTimeout(timer);
   }, [localSearch, router, pathname, searchParams, searchQuery]);
 
-
-  useEffect(() => {
-    async function fetchResources() {
-      try {
-        const { data, error } = await supabase
-          .from('resources')
-          .select('*')
-          .eq('status', 'Approved');
-
-        if (error) {
-          console.error('Error fetching resources:', error);
-        } else {
-          setResources(data || []);
-        }
-      } catch (error) {
-        console.error('Unexpected error:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchResources();
-  }, []);
 
   const filteredResources = resources.filter((resource) => {
     const matchesCategory = activeCategory === "All" || resource.category === activeCategory;
