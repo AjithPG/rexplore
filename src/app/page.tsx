@@ -7,14 +7,8 @@ import { useResources } from "@/hooks/useResources";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { PaginationControls } from "@/components/pagination-controls";
+import { Resource } from "@/types/resource";
 
 
 function HomeContent() {
@@ -171,63 +165,12 @@ function HomeContent() {
             )}
 
             {/* Pagination */}
-            {!isLoading && filteredResources.length > itemsPerPage && (
-              <div className="mt-12">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious
-                        onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                      />
-                    </PaginationItem>
-
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                      // Show limited pages logic could go here, for now showing all if not too many
-                      if (totalPages > 7) {
-                        // Simple truncated logic could be implemented if requested, keeping it simple for now
-                        if (page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)) {
-                          return (
-                            <PaginationItem key={page}>
-                              <PaginationLink
-                                isActive={currentPage === page}
-                                onClick={() => handlePageChange(page)}
-                                className="cursor-pointer"
-                                size="icon"
-                              >
-                                {page}
-                              </PaginationLink>
-                            </PaginationItem>
-                          );
-                        } else if (page === currentPage - 2 || page === currentPage + 2) {
-                          return <PaginationItem key={page}><span className="flex h-9 w-9 items-center justify-center">...</span></PaginationItem>
-                        }
-                        return null;
-                      }
-
-                      return (
-                        <PaginationItem key={page}>
-                          <PaginationLink
-                            isActive={currentPage === page}
-                            onClick={() => handlePageChange(page)}
-                            className="cursor-pointer"
-                            size="icon"
-                          >
-                            {page}
-                          </PaginationLink>
-                        </PaginationItem>
-                      )
-                    })}
-
-                    <PaginationItem>
-                      <PaginationNext
-                        onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
+            {!isLoading && (
+              <PaginationControls
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             )}
           </section>
         </main>
