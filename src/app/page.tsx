@@ -1,24 +1,14 @@
 "use client";
-import { Navbar } from "@/components/navbar";
 import { ResourceCard } from "@/components/resource-card";
-import { Footer } from "@/components/footer";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useState, useEffect, Suspense } from "react";
-import { supabase } from "@/lib/supabase";
+import { useResources } from "@/hooks/useResources";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Resource } from "@/types/resource";
+import { PaginationControls } from "@/components/pagination-controls";
+
 
 function HomeContent() {
   const searchParams = useSearchParams();
@@ -30,8 +20,7 @@ function HomeContent() {
   const searchQuery = searchParams.get("q") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const [resources, setResources] = useState<Resource[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: resources = [], isLoading } = useResources();
   const itemsPerPage = 10;
 
   // Local state for search input to allow typing without constant URL updates
@@ -61,29 +50,6 @@ function HomeContent() {
   }, [localSearch, router, pathname, searchParams, searchQuery]);
 
 
-  useEffect(() => {
-    async function fetchResources() {
-      try {
-        const { data, error } = await supabase
-          .from('resources')
-          .select('*')
-          .eq('status', 'Approved');
-
-        if (error) {
-          console.error('Error fetching resources:', error);
-        } else {
-          setResources(data || []);
-        }
-      } catch (error) {
-        console.error('Unexpected error:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchResources();
-  }, []);
-
   const filteredResources = resources.filter((resource) => {
     const matchesCategory = activeCategory === "All" || resource.category === activeCategory;
     const matchesSearch = searchQuery === "" ||
@@ -110,7 +76,9 @@ function HomeContent() {
     <div className="h-screen overflow-hidden bg-background font-sans flex flex-col">
 
       <div className="flex flex-1 overflow-hidden container max-w-screen-2xl mx-auto">
-        <Sidebar className="block w-64 shrink-0 hidden md:block border-r" />
+        <Suspense fallback={null}>
+          <Sidebar className="block w-64 shrink-0 hidden md:block border-r" />
+        </Suspense>
 
         <main className="flex-1 w-full min-w-0 overflow-y-auto">
           {/* Hero Section */}
@@ -196,63 +164,12 @@ function HomeContent() {
             )}
 
             {/* Pagination */}
-            {!isLoading && filteredResources.length > itemsPerPage && (
-              <div className="mt-12">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious
-                        onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                        className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                      />
-                    </PaginationItem>
-
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
-                      // Show limited pages logic could go here, for now showing all if not too many
-                      if (totalPages > 7) {
-                        // Simple truncated logic could be implemented if requested, keeping it simple for now
-                        if (page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)) {
-                          return (
-                            <PaginationItem key={page}>
-                              <PaginationLink
-                                isActive={currentPage === page}
-                                onClick={() => handlePageChange(page)}
-                                className="cursor-pointer"
-                                size="icon"
-                              >
-                                {page}
-                              </PaginationLink>
-                            </PaginationItem>
-                          );
-                        } else if (page === currentPage - 2 || page === currentPage + 2) {
-                          return <PaginationItem key={page}><span className="flex h-9 w-9 items-center justify-center">...</span></PaginationItem>
-                        }
-                        return null;
-                      }
-
-                      return (
-                        <PaginationItem key={page}>
-                          <PaginationLink
-                            isActive={currentPage === page}
-                            onClick={() => handlePageChange(page)}
-                            className="cursor-pointer"
-                            size="icon"
-                          >
-                            {page}
-                          </PaginationLink>
-                        </PaginationItem>
-                      )
-                    })}
-
-                    <PaginationItem>
-                      <PaginationNext
-                        onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                        className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
-                      />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
+            {!isLoading && (
+              <PaginationControls
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             )}
           </section>
         </main>
