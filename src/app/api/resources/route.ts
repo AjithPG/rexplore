@@ -52,14 +52,15 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
 
-    let query = supabase.from('resources').select('*');
+    let query = supabase.from('resources').select('*').order('created_at', { ascending: false });
 
-    if (status) {
+    if (status && status !== 'all') {
         query = query.eq('status', status);
-    } else {
+    } else if (!status) {
         // Default to approved for public listing
         query = query.eq('status', 'Approved');
     }
+    // status=all → no filter, return everything
 
     const { data, error } = await query;
 
