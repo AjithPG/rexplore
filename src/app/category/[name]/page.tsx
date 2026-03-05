@@ -1,13 +1,12 @@
 'use client'
-import { ResourceCard } from "@/components/resource-card";
-import { Input } from "@/components/ui/input";
+import { ResourceCard } from "@/entities/resource/ui/resource-card";
+import { Input } from "@/shared/ui/input";
 import { Search } from "lucide-react";
 import { useState, useEffect, Suspense } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/shared/api/supabase";
 import { useSearchParams, useRouter, usePathname, useParams } from "next/navigation";
-import { Sidebar } from "@/components/sidebar";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { Sidebar } from "@/widgets/sidebar/ui/sidebar";;
+import { Button } from "@/shared/ui/button";
 import {
     Pagination,
     PaginationContent,
@@ -15,8 +14,8 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Resource } from "@/types/resource";
+} from "@/shared/ui/pagination";
+import { Resource } from "@/entities/resource/model/types";
 
 const CategoryPage = () => {
     const searchParams = useSearchParams();

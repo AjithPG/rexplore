@@ -1,59 +1,27 @@
 "use client";
-
-import { Navbar } from "@/components/navbar";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/shared/ui/button";
+import { Input } from "@/shared/ui/input";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import {
-    Check,
-    X,
-    ExternalLink,
     Loader2,
-    Pencil,
-    Trash2,
     Plus,
     LayoutDashboard,
-    Clock,
-    CheckCircle2,
-    XCircle,
     Search,
 } from "lucide-react";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-    DialogDescription,
-} from "@/components/ui/dialog";
-import Link from "next/link";
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
-import { Resource } from "@/types/resource";
-import { ResourceFormDialog } from "@/components/resource-form-dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PaginationControls } from "@/components/pagination-controls";
+import { Resource } from "@/entities/resource/model/types";
+import { ResourceFormDialog } from "@/features/resource/ui/resource-form-dialog";
+import { ResourcesTable } from "@/widgets/admin-panel/ui/resources-table";
+import { StatsCards } from "@/features/admin/ui/stats-cards";
+import { FilterTabs } from "@/features/admin/ui/filter-tabs";
+import { DeleteConfirmationDialog } from "@/shared/ui/delete-confirmation-dialog";
+import { PaginationControls } from "@/shared/ui/pagination-controls";
+import { Tab } from "@/entities/admin/model/types";
 
-type Tab = "all" | "pending" | "Approved" | "rejected";
+
 
 const ITEMS_PER_PAGE = 10;
-
-const STATUS_BADGE_MAP: Record<string, { variant: "default" | "secondary" | "destructive" | "outline"; label: string }> = {
-    pending: { variant: "secondary", label: "Pending" },
-    Approved: { variant: "default", label: "Approved" },
-    approved: { variant: "default", label: "Approved" },
-    rejected: { variant: "destructive", label: "Rejected" },
-};
-
 const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "ajithpg2411@gmail.com")
     .split(",")
     .map((e) => e.trim().toLowerCase());
@@ -61,7 +29,6 @@ const ADMIN_EMAILS = (process.env.NEXT_PUBLIC_ADMIN_EMAILS ?? "ajithpg2411@gmail
 export default function AdminPage() {
     const router = useRouter();
     const { user, isLoaded } = useUser();
-
     const [resources, setResources] = useState<Resource[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<Tab>("all");
@@ -112,7 +79,7 @@ export default function AdminPage() {
         setCurrentPage(1);
     }, [activeTab, search]);
 
-    const updateStatus = async (id: string, status: 'Approved' | 'rejected') => {
+    const updateStatus = async (id: string, status: Tab) => {
         try {
             const response = await fetch(`/api/resources/${id}`, {
                 method: 'PATCH',
@@ -219,9 +186,7 @@ export default function AdminPage() {
 
     return (
         <div className="min-h-screen bg-background font-sans">
-
-
-            <main className="container py-10 px-4 md:px-6 max-w-screen-xl mx-auto">
+            <main className="container py-10 px-4 md:px-6 max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-3">
@@ -236,76 +201,22 @@ export default function AdminPage() {
                         Add Resource
                     </Button>
                 </div>
-
                 {/* Stats Cards */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">Total</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-3xl font-bold">{total}</p>
-                            <p className="text-xs text-muted-foreground mt-1">All resources</p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1.5">
-                                <Clock className="h-3.5 w-3.5 text-yellow-500" /> Pending
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-3xl font-bold text-yellow-600">{pendingCount}</p>
-                            <p className="text-xs text-muted-foreground mt-1">Awaiting review</p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1.5">
-                                <CheckCircle2 className="h-3.5 w-3.5 text-green-500" /> Approved
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-3xl font-bold text-green-600">{approvedCount}</p>
-                            <p className="text-xs text-muted-foreground mt-1">Live resources</p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-1.5">
-                                <XCircle className="h-3.5 w-3.5 text-red-500" /> Rejected
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-3xl font-bold text-red-600">{rejectedCount}</p>
-                            <p className="text-xs text-muted-foreground mt-1">Not approved</p>
-                        </CardContent>
-                    </Card>
-                </div>
+                <StatsCards 
+                    total={total} 
+                    pendingCount={pendingCount} 
+                    approvedCount={approvedCount} 
+                    rejectedCount={rejectedCount} 
+                />
 
                 {/* Tabs + Search row */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                     {/* Tabs */}
-                    <div className="flex gap-1 border-b sm:border-b-0">
-                        {tabs.map((tab) => (
-                            <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors -mb-px ${activeTab === tab.id
-                                    ? "border-primary text-primary"
-                                    : "border-transparent text-muted-foreground hover:text-foreground"
-                                    }`}
-                            >
-                                {tab.label}
-                                <span className={`ml-2 text-xs px-1.5 py-0.5 rounded-full ${activeTab === tab.id
-                                    ? "bg-primary/10 text-primary"
-                                    : "bg-muted text-muted-foreground"
-                                    }`}>
-                                    {tab.count}
-                                </span>
-                            </button>
-                        ))}
-                    </div>
+                    <FilterTabs
+                        tabs={tabs}
+                        activeTab={activeTab}
+                        onTabChange={setActiveTab}
+                    />
 
                     {/* Search */}
                     <div className="relative w-full sm:w-64">
@@ -327,110 +238,14 @@ export default function AdminPage() {
                 )}
 
                 {/* Table */}
-                <div className="border rounded-lg overflow-hidden">
-                    <Table>
-                        <TableHeader>
-                            <TableRow className="bg-muted/40">
-                                <TableHead className="w-[260px]">Title</TableHead>
-                                <TableHead>Category</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>URL</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {loading ? (
-                                <TableRow>
-                                    <TableCell colSpan={6} className="text-center py-16">
-                                        <Loader2 className="h-6 w-6 animate-spin mx-auto text-muted-foreground" />
-                                    </TableCell>
-                                </TableRow>
-                            ) : paginated.length === 0 ? (
-                                <TableRow>
-                                    <TableCell colSpan={6} className="text-center py-16 text-muted-foreground">
-                                        {q ? `No resources match "${search}".` : "No resources found."}
-                                    </TableCell>
-                                </TableRow>
-                            ) : (
-                                paginated.map((resource) => {
-                                    const statusInfo = STATUS_BADGE_MAP[resource.status ?? "pending"] ?? { variant: "outline" as const, label: resource.status ?? "—" };
-                                    return (
-                                        <TableRow key={resource.id} className="group">
-                                            <TableCell className="font-medium max-w-[260px]">
-                                                <span className="line-clamp-1">{resource.title}</span>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline" className="text-xs">{resource.category}</Badge>
-                                            </TableCell>
-                                            <TableCell className="capitalize text-sm text-muted-foreground">{resource.type}</TableCell>
-                                            <TableCell>
-                                                <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
-                                            </TableCell>
-                                            <TableCell>
-                                                <Link
-                                                    href={resource.url}
-                                                    target="_blank"
-                                                    className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                                                >
-                                                    Link <ExternalLink className="h-3 w-3" />
-                                                </Link>
-                                            </TableCell>
-                                            <TableCell className="text-right">
-                                                <div className="flex items-center justify-end gap-1">
-                                                    {/* Approve */}
-                                                    {resource.status !== "Approved" && resource.status !== "approved" && (
-                                                        <Button
-                                                            size="sm"
-                                                            variant="ghost"
-                                                            className="h-8 w-8 p-0 text-green-600 hover:text-green-700 hover:bg-green-50"
-                                                            title="Approve"
-                                                            onClick={() => updateStatus(resource.id, 'Approved')}
-                                                        >
-                                                            <Check className="h-4 w-4" />
-                                                        </Button>
-                                                    )}
-                                                    {/* Reject */}
-                                                    {resource.status !== "rejected" && (
-                                                        <Button
-                                                            size="sm"
-                                                            variant="ghost"
-                                                            className="h-8 w-8 p-0 text-orange-500 hover:text-orange-600 hover:bg-orange-50"
-                                                            title="Reject"
-                                                            onClick={() => updateStatus(resource.id, 'rejected')}
-                                                        >
-                                                            <X className="h-4 w-4" />
-                                                        </Button>
-                                                    )}
-                                                    {/* Edit */}
-                                                    <Button
-                                                        size="sm"
-                                                        variant="ghost"
-                                                        className="h-8 w-8 p-0 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                                        title="Edit"
-                                                        onClick={() => openEdit(resource)}
-                                                    >
-                                                        <Pencil className="h-4 w-4" />
-                                                    </Button>
-                                                    {/* Delete */}
-                                                    <Button
-                                                        size="sm"
-                                                        variant="ghost"
-                                                        className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                                        title="Delete"
-                                                        onClick={() => openDelete(resource)}
-                                                    >
-                                                        <Trash2 className="h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })
-                            )}
-                        </TableBody>
-                    </Table>
-                </div>
+                <ResourcesTable
+                    loading={loading}
+                    search={search}
+                    paginated={paginated}
+                    updateStatus={updateStatus}
+                    openEdit={openEdit}
+                    openDelete={openDelete}
+                />
 
                 {/* Pagination footer */}
                 {!loading && totalPages > 1 && (
@@ -446,7 +261,6 @@ export default function AdminPage() {
                     </div>
                 )}
             </main>
-
             {/* Add / Edit Form Dialog */}
             <ResourceFormDialog
                 open={formOpen}
@@ -454,37 +268,15 @@ export default function AdminPage() {
                 resource={editingResource}
                 onSuccess={fetchResources}
             />
-
             {/* Delete Confirmation Dialog */}
-            <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-                <DialogContent className="sm:max-w-[400px]">
-                    <DialogHeader>
-                        <DialogTitle>Delete Resource</DialogTitle>
-                        <DialogDescription>
-                            Are you sure you want to delete{" "}
-                            <span className="font-semibold">&ldquo;{deletingResource?.title}&rdquo;</span>?
-                            This action cannot be undone.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter className="mt-4">
-                        <Button
-                            variant="outline"
-                            onClick={() => setDeleteOpen(false)}
-                            disabled={deleteLoading}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="destructive"
-                            onClick={handleDelete}
-                            disabled={deleteLoading}
-                        >
-                            {deleteLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Delete
-                        </Button>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+            <DeleteConfirmationDialog 
+                open={deleteOpen} 
+                onOpenChange={setDeleteOpen} 
+                title="Delete Resource"
+                itemName={deletingResource?.title}
+                onConfirm={handleDelete}
+                loading={deleteLoading}
+            />
         </div>
     );
 }

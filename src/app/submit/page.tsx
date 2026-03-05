@@ -1,5 +1,5 @@
-import { Navbar } from "@/components/navbar";
-import { SubmissionForm } from "@/components/submission-form";
+import { Navbar } from "@/widgets/header/ui/navbar";
+import { SubmissionForm } from "@/features/submission/ui/submission-form";
 
 export default function SubmitPage() {
     return (

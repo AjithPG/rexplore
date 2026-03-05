@@ -1,13 +1,13 @@
 "use client";
-import { ResourceCard } from "@/components/resource-card";
-import { Input } from "@/components/ui/input";
+import { ResourceCard } from "@/entities/resource/ui/resource-card";
+import { Input } from "@/shared/ui/input";
 import { Search } from "lucide-react";
 import { useState, useEffect, Suspense } from "react";
-import { useResources } from "@/hooks/useResources";
+import { useResources } from "@/entities/resource/api/useResources";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Sidebar } from "@/components/sidebar";
-import { Button } from "@/components/ui/button";
-import { PaginationControls } from "@/components/pagination-controls";
+import { Sidebar } from "@/widgets/sidebar/ui/sidebar";
+import { Button } from "@/shared/ui/button";
+import { PaginationControls } from "@/shared/ui/pagination-controls";
 
 
 function HomeContent() {

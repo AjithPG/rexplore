@@ -1,14 +1,14 @@
 "use client";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Navbar } from "@/widgets/header/ui/navbar";
+import { Footer } from "@/widgets/footer/ui/footer";
+import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
 import { ExternalLink, Loader2, Check, Copy } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Sidebar } from "@/components/sidebar";
-import { Resource } from "@/types/resource";
+import { Sidebar } from "@/widgets/sidebar/ui/sidebar";
+import { Resource } from "@/entities/resource/model/types";
 
 export default function ResourceDetailPage() {
     const params = useParams();

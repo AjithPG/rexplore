@@ -2,9 +2,9 @@ import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Providers from '@/components/Providers';
-import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+import Providers from "@/app/providers";
+import { Navbar } from "@/widgets/header/ui/navbar";
+import { Footer } from "@/widgets/footer/ui/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
