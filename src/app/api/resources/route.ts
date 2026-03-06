@@ -58,7 +58,7 @@ export async function GET(request: Request) {
         query = query.eq('status', status);
     } else if (!status) {
         // Default to approved for public listing
-        query = query.eq('status', 'Approved');
+        query = query.eq('status', 'approved');
     }
     // status=all → no filter, return everything
 

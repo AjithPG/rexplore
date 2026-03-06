@@ -35,34 +35,44 @@ Rexplore is a platform to help people discover free learning and earning opportu
     npm run dev
     ```
 
-## Project Structure
-- `src/app`: Next.js App Router pages.
-- `src/components`: UI components (Navbar, ResourceCard, etc.).
-- `src/lib`: Utility functions and Supabase client.
+## 📁 Project Architecture (FSD)
 
-## 📁 Repository Structure
+This project follows the **Feature-Sliced Design (FSD)** architecture.
+
 ```bash
-📁 Project Structure
 .
-├── 📂 app/                 – App router entry
-├── 📂 components/          – Reusable UI components
-├── 📂 lib/                 – Logic, utils, Supabase client
-├── 📂 types/               – TS interfaces & types
-├── 📂 styles/              – Global & module CSS
-├── 🔐 middleware.ts        – Authentication (Clerk)
-│
+├── 📂 public/              – Static assets
 ├── 🗄️ supabase/
 │   └── 📄 schema.sql       – Database schema
-│
 └── 📂 src/
-    └── 📂 app/
-        ├── 📄 layout.tsx    – HTML/Body wrapper
-        ├── 📄 page.tsx      – Home page
-        ├── 📄 globals.css   – Global styles
-        ├── 📂 api/          
-        ├── 📂 admin/
-        ├── 📂 submit/
-        └── 📂 resources/
+    ├── 📂 app/             – Next.js routing, global providers & styles
+    │   ├── 📄 layout.tsx   – HTML/Body wrapper
+    │   ├── 📄 page.tsx     – Home page
+    │   ├── 📄 globals.css  – Global styles
+    │   ├── 📂 admin/       – Admin routes
+    │   └── 📂 api/         – Serverless API Routes
+    │
+    ├── 📂 widgets/         – Composite UI blocks (Header, Sidebar, Forms)
+    │   ├── 📂 admin-panel/
+    │   ├── 📂 footer/
+    │   ├── 📂 header/
+    │   └── 📂 sidebar/
+    │
+    ├── 📂 features/        – Discrete user actions & interactions
+    │   ├── 📂 admin/
+    │   ├── 📂 category/
+    │   ├── 📂 resource/
+    │   └── 📂 submission/
+    │
+    ├── 📂 entities/        – Business logic, types, and domain-centric API
+    │   ├── 📂 admin/
+    │   └── 📂 resource/
+    │
+    └── 📂 shared/          – Reusable code with no domain-specific knowledge
+        ├── 📂 api/         – API clients (Axios, Fetch, Supabase)
+        ├── 📂 config/      – Setup logic like Zod environment variables
+        ├── 📂 lib/         – Utilities like `cn()` wrapper
+        └── 📂 ui/          – Shadcn & Radix primitive UI components
 ```
 At the root level you will find the following files and configurations:
 
@@ -91,4 +101,4 @@ At the root level you will find the following files and configurations:
 The UI is fully implemented with mock data. To enable real data persistence:
 1.  Set up a Supabase project.
 2.  Create a `resources` table.
-3.  Implement API routes to fetch/save data using the `supabase` client in `src/lib/supabase.ts`.
+3.  Implement API routes to fetch/save data using the `supabase` client in `src/shared/api/supabase.ts`.

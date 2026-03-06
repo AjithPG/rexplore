@@ -109,7 +109,7 @@ const CategoryPage = () => {
         <div className="h-screen overflow-hidden bg-background font-sans flex flex-col">
 
             <div className="flex flex-1 overflow-hidden container max-w-screen-2xl mx-auto">
-                <Sidebar className="block w-64 shrink-0 hidden md:block border-r" />
+                <Sidebar className="w-64 shrink-0 hidden md:block border-r" />
 
                 <main className="flex-1 w-full min-w-0 overflow-y-auto">
                     {/* Hero Section */}

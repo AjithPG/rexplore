@@ -13,30 +13,26 @@ export function Navbar() {
     const [open, setOpen] = useState(false);
     const pathname = usePathname();
 
-    // Automatically close mobile drawer when route changes
-    useEffect(() => {
-        setOpen(false);
-    }, [pathname]);
     return (
-        <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 container max-w-screen-2xl mx-auto">
+        <nav className="border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 container max-w-screen-2xl mx-auto">
             <div className="container flex h-16 items-center justify-between px-4 md:px-6">
                 {/* Logo */}
                 <Link href="/" className="flex items-center space-x-2">
                     <span className="text-2xl font-bold tracking-tight">Rexplore</span>
-                    <Badge className="px-1.5 text-[0.6rem] h-5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0 shadow-sm">Alpha</Badge>
+                    <Badge className="px-1.5 text-[0.6rem] h-5 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500 text-white border-0 shadow-sm">Alpha</Badge>
                 </Link>
 
                 {/* Right Side */}
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-4">
-                    <Button size="sm" asChild className="px-8 text-lg w-auto">
+                    {/* <Button size="sm" asChild className="px-8 text-lg w-auto">
                         <Link
                             href="https://forms.gle/z46LQ5DZK9LcDzmc9"
                             className="text-sm font-medium text-muted-foreground transition-colors"
                         >
                             Request Resources
                         </Link>
-                    </Button>
+                    </Button> */}
 
                     <SignedOut>
                         <SignInButton mode="modal">
@@ -83,14 +79,14 @@ export function Navbar() {
                                         <Button size="sm" className="w-full justify-start">Sign Up</Button>
                                     </SignUpButton>
                                 </SignedOut>
-                                <Button size="sm" asChild className="w-full justify-start">
+                                {/* <Button size="sm" asChild className="w-full justify-start">
                                     <Link
                                         href="https://forms.gle/z46LQ5DZK9LcDzmc9"
                                         className="text-sm font-medium transition-colors"
                                     >
                                         Request Resources
                                     </Link>
-                                </Button>
+                                </Button> */}
                             </div>
                         </SheetContent>
                     </Sheet>

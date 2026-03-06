@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
@@ -32,14 +32,9 @@ const CATEGORIES = [
 
 export function Sidebar({ className }: SidebarProps) {
     const searchParams = useSearchParams();
-    const pathname = usePathname();
 
-    // Determine current category from either search params or pathname
+    // Determine current category from search params
     const getCategoryFromPath = () => {
-        if (pathname === "/") return "All";
-        if (pathname.startsWith("/category/")) {
-            return decodeURIComponent(pathname.split("/").pop() || "All");
-        }
         return searchParams.get("category") || "All";
     };
 
@@ -48,9 +43,13 @@ export function Sidebar({ className }: SidebarProps) {
     const getHref = (category: string) => {
         const params = new URLSearchParams(searchParams.toString());
         params.delete("page");
-        params.delete("category");
+        if (category === "All") {
+             params.delete("category");
+        } else {
+             params.set("category", category);
+        }
         const suffix = params.toString() ? `?${params.toString()}` : "";
-        return category === "All" ? `/${suffix}` : `/category/${encodeURIComponent(category)}${suffix}`;
+        return `/${suffix}`;
     };
 
     return (

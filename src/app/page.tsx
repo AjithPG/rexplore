@@ -77,12 +77,12 @@ function HomeContent() {
 
       <div className="flex flex-1 overflow-hidden container max-w-screen-2xl mx-auto">
         <Suspense fallback={null}>
-          <Sidebar className="block w-64 shrink-0 hidden md:block border-r" />
+          <Sidebar className="block w-64 shrink-0 md:block border-r" />
         </Suspense>
 
         <main className="flex-1 w-full min-w-0 overflow-y-auto">
           {/* Hero Section */}
-          <section className="py-12 md:py-20 px-4 md:px-8 bg-gradient-to-b from-muted/50 to-background">
+          <section className="py-12 md:py-20 px-4 md:px-8 bg-linear-to-b from-muted/50 to-background">
             <div className="text-center max-w-3xl mx-auto">
               <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
                 Find Free Learning

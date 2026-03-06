@@ -175,8 +175,14 @@ export default function AdminPage() {
         { id: "rejected", label: "Rejected", count: rejectedCount },
     ];
 
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     // While Clerk is loading or user isn't admin, show spinner (redirect is running in useEffect)
-    if (!isLoaded || !user || !isAdmin) {
+    if (!mounted || !isLoaded || !user || !isAdmin) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-background">
                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
