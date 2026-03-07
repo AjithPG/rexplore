@@ -21,6 +21,8 @@ import {
     SelectValue,
 } from "@/shared/ui/select";
 import { Loader2 } from "lucide-react";
+import { useAddResource } from "@/entities/resource/model/useAddResource";
+import { useUpdateResource } from "@/entities/resource/model/useUpdateResource";
 
 const CATEGORIES = ["AI", "Certification", "Course", "Resources", "Earning", "Event", "Job"];
 const TYPES = ["Coding", "Design", "Productivity", "Tools", "Marketing", "Business", "Other","Content Creation"];
@@ -65,6 +67,9 @@ export function ResourceFormDialog({
     const [form, setForm] = useState<FormData>(EMPTY_FORM);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const { mutate: addResource } = useAddResource();
+    const { mutate: updateResource } = useUpdateResource();
+ 
 
     useEffect(() => {
         if (open) {
@@ -92,7 +97,6 @@ export function ResourceFormDialog({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
         setSubmitting(true);
 
         const payload = {
@@ -102,30 +106,33 @@ export function ResourceFormDialog({
                 : [],
         };
 
-        try {
-            const url = isEditMode
-                ? `/api/resources/${resource!.id}`
-                : `/api/resources`;
-
-            const method = isEditMode ? "PUT" : "POST";
-
-            const res = await fetch(url, {
-                method,
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
+        if(isEditMode){
+            console.log(payload);
+            updateResource({ id: resource!.id, data: payload }, {
+                onSuccess: () => {
+                    onSuccess();
+                    onOpenChange(false);
+                },
+                onError: (error) => {
+                    console.error('Failed to update resource', error)
+                },
+                onSettled: () => {
+                    setSubmitting(false);
+                },
             });
-
-            if (!res.ok) {
-                const data = await res.json();
-                throw new Error(data.error || "Request failed");
-            }
-
-            onSuccess();
-            onOpenChange(false);
-        } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : "An error occurred");
-        } finally {
-            setSubmitting(false);
+        }else{
+            addResource(payload, {
+                onSuccess: () => {
+                    onSuccess();
+                    onOpenChange(false);
+                },
+                onError: (error) => {
+                    console.error('Failed to add resource', error)
+                },
+                onSettled: () => {
+                    setSubmitting(false);
+                },
+            });
         }
     };
 

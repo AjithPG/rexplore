@@ -1,13 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
 import { resourceService } from '@/entities/resource/api/resourceService';
+import { Resource } from '@/entities/resource/model/types';
 
-export const useUpdateResourceStatus = () => {
+export const useUpdateResource = () => {
 
   return useMutation({
-    mutationFn: ({ id, status }: { id: string; status: string }) => resourceService.updateResourceStatus(id, status),
+    mutationFn: ({ id, data }: { id: string; data: Partial<Resource> }) => resourceService.updateResource(id, data),
 
     onSuccess: () => {
-      console.log('Resource status updated successfully')
+      console.log('Resource updated successfully')
     },
 
     onError: (error) => {

@@ -20,8 +20,12 @@ export const resourceService = {
         const response = await apiClient.get(`/resources/${id}`);
         return response.data;
     },
+     async addResource(data: Partial<Resource>): Promise<Resource> {
+        const response = await apiClient.post(`/resources`, data);
+        return response.data;
+    },
     async updateResource(id: string, data: Partial<Resource>): Promise<Resource> {
-        const response = await apiClient.patch(`/resources/${id}`, data);
+        const response = await apiClient.put(`/resources/${id}`, data);
         return response.data;
     },
     async updateResourceStatus(id: string, status: string): Promise<Resource> {
