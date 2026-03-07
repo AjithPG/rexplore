@@ -18,6 +18,8 @@ import { FilterTabs } from "@/features/admin/ui/filter-tabs";
 import { DeleteConfirmationDialog } from "@/shared/ui/delete-confirmation-dialog";
 import { PaginationControls } from "@/shared/ui/pagination-controls";
 import { Tab } from "@/entities/admin/model/types";
+import { useDeleteResource } from "@/entities/resource/model/useDeleteResource";
+import { useUpdateResourceStatus } from "@/entities/resource/model/useUpdateResourceStatus";
 
 
 
@@ -47,6 +49,8 @@ export default function AdminPage() {
     // Admin guard
     const userEmail = user?.primaryEmailAddress?.emailAddress ?? "";
     const isAdmin = ADMIN_EMAILS.includes(userEmail.toLowerCase());
+    const { mutate: deleteResource} = useDeleteResource();
+    const { mutate: updateResourceStatus} = useUpdateResourceStatus();
 
     useEffect(() => {
         if (!isLoaded) return;
@@ -80,45 +84,32 @@ export default function AdminPage() {
     }, [activeTab, search]);
 
     const updateStatus = async (id: string, status: Tab) => {
-        try {
-            const response = await fetch(`/api/resources/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status }),
-            });
-
-            if (response.ok) {
-                setResources((prev) =>
-                    prev.map((r) => (r.id === id ? { ...r, status } : r))
-                );
-            } else {
-                alert("Failed to update status");
-            }
-        } catch (error) {
-            console.error("Error updating status", error);
+       updateResourceStatus({id, status}, {
+        onSuccess: () => {
+            fetchResources();
         }
+       })
     };
 
     const handleDelete = async () => {
-        if (!deletingResource) return;
-        setDeleteLoading(true);
-        try {
-            const response = await fetch(`/api/resources/${deletingResource.id}`, {
-                method: 'DELETE',
-            });
-            if (response.ok) {
-                setResources((prev) => prev.filter((r) => r.id !== deletingResource.id));
-                setDeleteOpen(false);
-                setDeletingResource(null);
-            } else {
-                alert("Failed to delete resource");
-            }
-        } catch (error) {
-            console.error("Error deleting resource", error);
-        } finally {
+    if (!deletingResource) return;
+    setDeleteLoading(true);
+
+    // This calls the mutation from useDeleteResource!
+    deleteResource(deletingResource.id, {
+        onSuccess: () => {
+            // This safely removes the item from the UI after Supabase deletes it
+            setResources((prev) => prev.filter((r) => r.id !== deletingResource.id));
+            setDeleteOpen(false);
+            setDeletingResource(null);
+        },
+        onSettled: () => {
+            // This turns off the loading spinner
             setDeleteLoading(false);
         }
-    };
+    });
+};
+
 
     const openAdd = () => {
         setEditingResource(null);

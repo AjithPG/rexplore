@@ -23,8 +23,8 @@ import {
 import { Loader2 } from "lucide-react";
 
 const CATEGORIES = ["AI", "Certification", "Course", "Resources", "Earning", "Event", "Job"];
-const TYPES = ["coding", "design", "productivity", "tools", "marketing", "business", "other"];
-const STATUSES = ["pending", "Approved", "rejected"];
+const TYPES = ["Coding", "Design", "Productivity", "Tools", "Marketing", "Business", "Other","Content Creation"];
+const STATUSES = ["Pending", "Approved", "Rejected"];
 
 interface ResourceFormDialogProps {
     open: boolean;
